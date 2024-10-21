@@ -37,10 +37,10 @@ KafeHaruno is a web-based cafe management system focused on backend development,
 ## Usage
 
 ### Admin Role:
- -Admin users can manage all tables, orders and menu items. They can only create a new order, mark existing bills as paid, and delete existing ones. They can create or assign new waiters or managers.
+ - Admin users can manage all tables, orders and menu items. They can only create a new order, mark existing bills as paid, and delete existing ones. They can create or assign new waiters or managers.
 
 ### Waiter/Waitress Role:
- -Waiters can only manage tables and orders. They can't access management features. They can change their username or password, create a new order but can't delete it. They can't see billing information.
+ - Waiters can only manage tables and orders. They can't access management features. They can change their username or password, create a new order but can't delete it. They can't see billing information.
 
 ## Future Enhancements
  - **Adding detailed analysis for order management and sales.**-
