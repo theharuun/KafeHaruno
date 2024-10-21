@@ -28,9 +28,9 @@ namespace KafeHaruno.Entities
         [DataType(DataType.Password)]
         [MaxLength(20, ErrorMessage = "Max lenght 20")]
         public string Password { get; set; }
-        public bool? Role { get; set; }  // Admin mi kullanıcı mı olduğu
+        public bool? Role { get; set; }  // Whether ,Admin or Waiter/Waitress
 
-        // Bir kullanıcının birden fazla siparişi olabilir
+        // A user can have multiple orders
         public ICollection<Order> Orders { get; set; } = new List<Order>();
     }
 

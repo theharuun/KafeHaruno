@@ -26,30 +26,33 @@ namespace KafeHaruno.KafeHarunoDbContext
             modelBuilder.Entity<ProductType>().HasKey(t => t.Id);
             modelBuilder.Entity<Tables>().HasKey(t => t.Id);
             modelBuilder.Entity<User>().HasKey(t => t.Id);
-            modelBuilder.Entity<OrderProduct>().HasKey(op => new { op.OrderId, op.ProductId }); // Birleşik anahtar tanımı
+            modelBuilder.Entity<OrderProduct>().HasKey(op => new { op.OrderId, op.ProductId }); // Composite key definition
 
 
-            //bir tablenın birden fazla orderı olabilir 
+            //a table can have more than one order
             modelBuilder.Entity<Tables>()
                   .HasMany(a => a.Orders)
                   .WithOne(a => a.Tables)
                   .HasForeignKey(a => a.TableId)
                   .IsRequired();
 
-            // table bir den fazla bill olabilir ama bir bill bir masanınındır
-            modelBuilder.Entity<Tables>()
-                 .HasMany(a=>a.Bills) // Bir masanın birden fazla faturası olabilir
-                 .WithOne(b => b.Tables) // Bir fatura sadece bir masaya ait olabilir
-                 .HasForeignKey(b => b.TableId); // Yabancı anahtar bağlantısı
 
-            // her bir orderın yalnız bir orderı olabilir ama bir userın birden fazla orderı olucaktır 
+            // table can have more than one bill but one bill belongs to one table
+            modelBuilder.Entity<Tables>()
+                .HasMany(a => a.Bills) // A table can have more than one bill
+                .WithOne(b => b.Tables) // An invoice can belong to only one table
+                .HasForeignKey(b => b.TableId); // Foreign key connection
+
+
+            // Each order can have only one order, but a user can have more than one order
             modelBuilder.Entity<User>()
                 .HasMany(a => a.Orders)
                 .WithOne(a=>a.User)
                 .HasForeignKey(a => a.UserId)
                 .IsRequired();
 
-            // Apartment ile ApartmentType ilişkisi (Güncellenmiş)
+
+            // Apartment and ApartmentType relationship (Updated)
             modelBuilder.Entity<Product>()
                     .HasOne(a => a.ProductType)
                     .WithMany(at => at.Products)
@@ -68,7 +71,7 @@ namespace KafeHaruno.KafeHarunoDbContext
 
             modelBuilder.Entity<Bill>()
                .Property(b => b.BillPrice)
-               .HasPrecision(10, 2); // 10 basamaklı, 2 ondalık basamak
+               .HasPrecision(10, 2); // 10 digits, 2 decimal places
         }
 
     }

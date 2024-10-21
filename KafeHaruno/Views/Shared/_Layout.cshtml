@@ -22,7 +22,7 @@
 
                         @if (Context.User.Identity.IsAuthenticated)
                         {
-                            var userRole = Context.User.FindFirst("Role")?.Value; // Kullanıcı rolünü al
+                            var userRole = Context.User.FindFirst("Role")?.Value; // Get the user role
 
                             <li class="nav-item">
                                 @if (userRole == "Waiter/Waitress")
@@ -41,7 +41,7 @@
                         </li>
                         @if (Context.User.Identity.IsAuthenticated)
                         {
-                            var userRole = Context.User.FindFirst("Role")?.Value; // Kullanıcı rolünü al
+                            var userRole = Context.User.FindFirst("Role")?.Value; // Get the user role
 
                             <li class="nav-item">
                                 @if (userRole == "Waiter/Waitress")
@@ -53,7 +53,7 @@
                             </li>
                         }
                         <li class="nav-item ms-auto">
-                            <!-- ms-auto sınıfı ile sağa itme -->
+                            <!-- right push with ms-auto class -->
                             @await Html.PartialAsync("_LoginPartial")
                         </li>
                     </ul>

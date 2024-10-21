@@ -23,10 +23,10 @@
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="IsPaid" /> @Html.DisplayNameFor(model => model.IsPaid)
                 </label>
-                <span asp-validation-for="IsPaid" class="text-danger"></span> <!-- Doğrulama mesajı eklendi -->
+                <span asp-validation-for="IsPaid" class="text-danger"></span> <!-- Added validation message -->
             </div>
 
-            <!-- TableId alanını gizli bir alan olarak ekleyin -->
+            <!-- Add TableId field as a hidden field -->
             <input type="hidden" asp-for="TableId" />
 
             <div class="form-group">

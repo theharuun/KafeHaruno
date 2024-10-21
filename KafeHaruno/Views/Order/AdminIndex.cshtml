@@ -22,14 +22,14 @@
         {
             @foreach (var order in Model)
             {
-                foreach (var orderProduct in order.OrderProducts) // Her siparişin tüm ürünlerini dolaş
+                foreach (var orderProduct in order.OrderProducts) // Loop through all products of each order
                 {
                     <tr>
                         <td>@Html.DisplayFor(m => order.Id)</td>
                         <td>@Html.DisplayFor(m => order.User.Name)</td>
-                        <td>@Html.DisplayFor(m => orderProduct.Product.ProductName)</td> <!-- Ürün ismi -->
+                        <td>@Html.DisplayFor(m => orderProduct.Product.ProductName)</td> <!-- Product name -->
                         <td>@Html.DisplayFor(m => orderProduct.Product.Price)</td>
-                        <td>@Html.DisplayFor(m => orderProduct.Quantity)</td> <!-- Miktar -->
+                        <td>@Html.DisplayFor(m => orderProduct.Quantity)</td> <!-- Quantity -->
                         <td>@Html.DisplayFor(m => order.TableId)</td>
                     </tr>
                 }
@@ -38,7 +38,7 @@
         else
         {
             <tr>
-                <td colspan="5">Hiç sipariş bulunamadı.</td>
+                <td colspan="5">No orders found.</td>
             </tr>
         }
     </tbody>
@@ -48,7 +48,7 @@
 
     @if (Context.User.Identity.IsAuthenticated)
     {
-        var userRole = Context.User.FindFirst("Role")?.Value; // Kullanıcı rolünü al
+        var userRole = Context.User.FindFirst("Role")?.Value; // Get the user role
 
         <li class="nav-item" style="list-style-type: none;">
             @if (userRole == "Waiter/Waitress")

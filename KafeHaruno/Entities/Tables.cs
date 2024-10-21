@@ -4,11 +4,11 @@
     {
         public int Id { get; set; }
 
-        public bool IsFull { get; set; }  // Masanın dolu olup olmadığını belirten bir özellik
-        public ICollection<Order> Orders { get; set; } = new List<Order> { }; // İlişki: Bir masa birden fazla sipariş alabilir
+        public bool IsFull { get; set; }  // A property indicating whether the table is full or not
+        public ICollection<Order> Orders { get; set; } = new List<Order> { }; // Relationship: A table can receive multiple orders
         public ICollection<Bill> Bills { get; set; }
 
-        // Masaya ait şu anki açık fatura (eğer varsa)
+        // Current open invoice for the table (if any)
         public Bill CurrentBill => Bills?.FirstOrDefault(b => !b.IsPaid);
 
     }

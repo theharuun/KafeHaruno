@@ -27,9 +27,6 @@
                 @Html.DisplayNameFor(model => model.Username)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Password)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Role)
             </th>
             <th></th>
@@ -50,9 +47,6 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Username)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Password)
-            </td>
                 <td>
                     @if (item.Role == true)
                     {
@@ -63,7 +57,6 @@
                         <text>Waiter/Waitress</text>
                     }
                 </td>
-
             <td>
                     <a class="btn btn-primary" asp-controller="Admin" asp-action="EditUser" asp-route-id="@item.Id">Edit</a> |
                     <a class="btn btn-danger" asp-controller="Admin" asp-action="DeleteUser" asp-route-id="@item.Id"
@@ -79,7 +72,7 @@
 
     @if (Context.User.Identity.IsAuthenticated)
     {
-        var userRole = Context.User.FindFirst("Role")?.Value; // Kullanıcı rolünü al
+        var userRole = Context.User.FindFirst("Role")?.Value; // Get the user role
 
         <li class="nav-item" style="list-style-type: none;">
             @if (userRole == "Waiter/Waitress")

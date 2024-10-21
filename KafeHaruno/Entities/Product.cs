@@ -17,7 +17,7 @@ namespace KafeHaruno.Entities
         public int? ProductTypeId { get; set; }
         public ProductType ProductType { get; set; }
 
-        public ICollection<OrderProduct> OrderProducts { get; set; }  // Product ile Order arasındaki ara tablo ilişkisi
+        public ICollection<OrderProduct> OrderProducts { get; set; } // Intermediate table relationship between Product and Order
     }
 }
 

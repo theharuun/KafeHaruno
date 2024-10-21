@@ -8,15 +8,15 @@
 
 <hr />
 
-<!-- Temel Tablo Bilgileri -->
+<!-- Basic Table Information -->
 <div>
-    <p><strong>Table ID:</strong> @Model.Id</p>
-    <p><strong>Is Full:</strong> @(Model.IsFull ? "Yes" : "No")</p>
+<p><strong>Table ID:</strong> @Model.Id</p>
+<p><strong>Is Full:</strong> @(Model.IsFull ? "Yes" : "No")</p>
 </div>
 
 <hr />
 
-<!-- Ödenmemiş Fatura Bilgisi (Unpaid Bill Details) -->
+<!-- Unpaid Bill Details -->
 <h3>Unpaid Bill Details</h3>
 @if (Model.Bills != null && Model.Bills.Any(b => b.IsPaid == false))
 {
@@ -32,12 +32,12 @@
 
     @if (Context.User.Identity.IsAuthenticated)
     {
-        var userRole = Context.User.FindFirst("Role")?.Value; // Kullanıcı rolünü al
+        var userRole = Context.User.FindFirst("Role")?.Value; // // Get the user role
 
         <li class="nav-item" style="list-style-type: none;">
             @if (userRole == "Admin")
             {
-                <!-- Pay to Bill Butonu -->
+                <!-- Pay to Bill Button -->
                 <a class="btn btn-secondary" asp-controller="Bill" asp-action="PayToBill" asp-route-id="@unpaidBill.Id">Pay to Bill</a>
             }
         </li>
@@ -46,9 +46,10 @@
 
     <hr />
 
-    <!-- Siparişler (Orders) - Sadece Ödenmemiş Faturaya Bağlı Olanlar -->
-    <h3>Orders Linked to Unpaid Bill</h3>
-    @if (Model.Orders != null && Model.Orders.Any(o => o.TableId == unpaidBill.TableId)) // TableId ile filtreleme
+<!-- Orders - Only those linked to Unpaid Bill -->
+
+<h3>Orders Linked to Unpaid Bill</h3>
+@if (Model.Orders != null && Model.Orders.Any(o => o.TableId == unpaidBill.TableId)) // Filter by TableId
     {
         <table class="table table-bordered">
             <thead>
@@ -62,16 +63,16 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var order in Model.Orders.Where(o => o.TableId == unpaidBill.TableId)) // TableId ile filtreleme
+                @foreach (var order in Model.Orders.Where(o => o.TableId == unpaidBill.TableId)) // Filter by TableId
                 {
-                    foreach (var orderProduct in order.OrderProducts) // Her siparişin tüm ürünlerini dolaş
+                    foreach (var orderProduct in order.OrderProducts) // Loop through all products of each order
                     {
                         <tr>
                             <td>@order.Id</td>
                             <td>@order.User.Name</td>
-                            <td>@orderProduct.Product.ProductName</td> <!-- Ürün ismi -->
+                            <td>@orderProduct.Product.ProductName</td> <!-- Product name -->
                             <td>@orderProduct.Product.Price</td>
-                            <td>@orderProduct.Quantity</td> <!-- Miktar -->
+                            <td>@orderProduct.Quantity</td> <!-- Quantity -->
                             <td>@order.TableId</td>
                         </tr>
                     }
@@ -90,12 +91,12 @@
 
     @if (Context.User.Identity.IsAuthenticated)
     {
-        var userRole = Context.User.FindFirst("Role")?.Value; // Kullanıcı rolünü al
+        var userRole = Context.User.FindFirst("Role")?.Value; // get the user role
 
         <li class="nav-item" style="list-style-type: none;">
             @if (userRole == "Waiter/Waitress")
             {
-                <!-- Give Order Butonu -->
+                <!-- Give Order Button -->
                 <a class="btn btn-secondary" asp-controller="Order" asp-action="Create" asp-route-tableId="@Model.Id" >Give Order</a>
             }
         </li>
@@ -110,12 +111,12 @@ else
 
     @if (Context.User.Identity.IsAuthenticated)
     {
-        var userRole = Context.User.FindFirst("Role")?.Value; // Kullanıcı rolünü al
+        var userRole = Context.User.FindFirst("Role")?.Value; //get the user role
 
         <li class="nav-item" style="list-style-type: none;">
             @if (userRole == "Waiter/Waitress")
             {
-                <!-- Pay to Bill Butonu -->
+                <!-- Pay to Bill Button -->
                 <a class="btn btn-secondary" asp-controller="Order" asp-action="Create" asp-route-tableId="@Model.Id">Give Order</a>
             }
         </li>
@@ -130,7 +131,7 @@ else
 
     @if (Context.User.Identity.IsAuthenticated)
     {
-        var userRole = Context.User.FindFirst("Role")?.Value; // Kullanıcı rolünü al
+        var userRole = Context.User.FindFirst("Role")?.Value; // get the user role
 
         <li class="nav-item" style="list-style-type: none;">
             @if (userRole == "Waiter/Waitress")

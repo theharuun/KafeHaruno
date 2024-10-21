@@ -45,10 +45,10 @@ namespace KafeHaruno.Controllers
 
             if (table == null)
             {
-                return NotFound();  // Eğer tablo bulunamazsa 404 sayfası döndür
+                return NotFound();  // If table not found return 404 page
             }
 
-            return View(table);  // Bulunan tabloyu view'a gönder
+            return View(table);  // Send the found table to the view
         }
 
     }

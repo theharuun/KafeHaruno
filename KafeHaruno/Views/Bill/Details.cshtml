@@ -77,13 +77,13 @@
 <div>
     @if (Context.User.Identity.IsAuthenticated)
     {
-        var userRole = Context.User.FindFirst("Role")?.Value; // Kullanıcı rolünü al
+        var userRole = Context.User.FindFirst("Role")?.Value; // Get the user role
         <p>
             @if (userRole == "Admin")
             {
                 <a class="btn btn-info" asp-controller="Bill" asp-action="AdminIndex">Back To List</a>
             }
-            else if (userRole == "Waiter/Waitress") // Kullanıcı rolü için
+            else if (userRole == "Waiter/Waitress") // For the user role
             {
                 <a class="btn btn-info" asp-controller="Bill" asp-action="UserIndex">Back To List</a>
             }

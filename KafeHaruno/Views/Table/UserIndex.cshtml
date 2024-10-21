@@ -11,13 +11,13 @@
     @foreach (var table in Model)
     {
         <div class="col-md-3 mb-3">
-            <!-- Her tablo için bir buton oluşturuyoruz -->
+            <!-- We create a button for each table -->
             <form asp-controller="Table" asp-action="Details" method="get">
                 <input type="hidden" name="id" value="@table.Id" />
                 <button type="submit"
                         class="btn btn-block @((table.IsFull) ? "btn-secondary" : "btn-success")">
-                    <!-- Butonun rengi IsFull durumuna göre ayarlanıyor -->
-                    Table @table.Id <!-- Butonun üzerinde tablo ID'si görünecek -->
+                    <!-- The color of the button is set according to the IsFull state -->
+                    Table @table.Id <!-- The table ID will be displayed on the button -->
                 </button>
             </form>
         </div>
@@ -27,7 +27,7 @@
 
     @if (Context.User.Identity.IsAuthenticated)
     {
-        var userRole = Context.User.FindFirst("Role")?.Value; // Kullanıcı rolünü al
+        var userRole = Context.User.FindFirst("Role")?.Value; // get the user role
 
         <li class="nav-item" style="list-style-type: none;">
             @if (userRole == "Waiter/Waitress")

@@ -65,7 +65,7 @@
 
     @if (Context.User.Identity.IsAuthenticated)
     {
-        var userRole = Context.User.FindFirst("Role")?.Value; // Kullanıcı rolünü al
+        var userRole = Context.User.FindFirst("Role")?.Value; //get the user role
 
         <li class="nav-item" style="list-style-type: none;">
             @if (userRole == "Waiter/Waitress")

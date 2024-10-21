@@ -32,15 +32,15 @@ namespace KafeHaruno.Controllers
         [HttpGet]
         public async Task<IActionResult> AddProduct()
         {
-            var productTypes = await context.ProductTypes.ToListAsync(); // Ürün tiplerini veritabanından al
-            ViewBag.ProductTypes = productTypes; // Ürün tiplerini ViewBag'e ata
+            var productTypes = await context.ProductTypes.ToListAsync(); // Get product types from database
+            ViewBag.ProductTypes = productTypes; // Assign product types to ViewBag
             return View();
         }
 
         [HttpPost]
         public async Task<IActionResult> AddProduct(AddProductViewModel viewModel)
         {
-            // Kontrol edilecek alanlar
+            // Areas to be checked
             var fieldsToValidate = new (string FieldName, object Value)[]
             {
                 ("ProductName", viewModel.ProductName),
@@ -50,7 +50,7 @@ namespace KafeHaruno.Controllers
             };
 
 
-            // Her alanı kontrol et
+            // Check each field
             foreach (var field in fieldsToValidate)
             {
                 if (field.Value == null)
@@ -93,7 +93,7 @@ namespace KafeHaruno.Controllers
                 ProductTypeId = product.ProductTypeId
             };
 
-            // Ürün türlerini al
+            // Get product types
             var productTypes = await context.ProductTypes.ToListAsync();
             ViewBag.ProductTypes = productTypes;
 

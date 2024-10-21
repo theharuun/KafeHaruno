@@ -1,10 +1,10 @@
-# Visual Studio geçici dosyalarý ve build sonuçlarý
+# Visual Studio temporary files and build results
 *.log
 *.vs/
 bin/
 obj/
 
-# Kullanýcýya özel dosyalar
+# special files for user
 *.user
 *.suo
 

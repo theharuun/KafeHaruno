@@ -59,14 +59,14 @@ namespace KafeHaruno.Controllers
                     var claimIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimIdentity));
 
-                    // Kullanýcýnýn rolüne göre yönlendirme
+                    // Routing based on user role
                     if (user.Role is false)
                     {
-                        return RedirectToAction("SecurePage", "User"); // Kullanýcý rolü ise UserController'a yönlendir
+                        return RedirectToAction("SecurePage", "User"); // If the user role is redirected to UserController
                     }
                     else
                     {
-                        return RedirectToAction("SecurePage", "Admin"); // Diðer roller için AdminController'a yönlendir
+                        return RedirectToAction("SecurePage", "Admin"); // Redirect to AdminController for other roles
                     }
 
                 }

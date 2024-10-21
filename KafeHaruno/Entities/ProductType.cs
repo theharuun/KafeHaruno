@@ -8,8 +8,8 @@ namespace KafeHaruno.Entities
         public int Id { get; set; }
         public string ProductTypeName { get; set; }
 
-        // Product ile ilişki
-        public ICollection<Product> Products { get; set; } = new List<Product>(); // Bir ürün türünde birden fazla ürün olabilir
+        // Relationship with Product
+        public ICollection<Product> Products { get; set; } = new List<Product>(); // There can be more than one product in a product type
     }
 
 }

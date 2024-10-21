@@ -29,14 +29,14 @@ namespace KafeHaruno.Controllers
         [HttpGet]
         public IActionResult CreateBillForm(CreateBillViewModel viewModel)
         {
-            return View("Create"); // "Create" view'ini döndürüyoruz
+            return View("Create"); // We return the "Create" view
         }
 
 
         [HttpPost]
         public async Task<IActionResult> Create(CreateBillViewModel viewModel)
         {
-            // Kontrol edilecek alanlar
+            // Areas to be checked
             var fieldsToValidate = new (string FieldName, object Value)[]
             {
                 ("BillPrice", viewModel.BillPrice),
@@ -45,7 +45,7 @@ namespace KafeHaruno.Controllers
             };
 
 
-            // Her alanı kontrol et
+            // Check every area
             foreach (var field in fieldsToValidate)
             {
                 if (field.Value == null)
@@ -67,20 +67,20 @@ namespace KafeHaruno.Controllers
             };
 
 
-            // İlgili masayı alıyoruz
+            // We take the relevant table
             var table = await context.Tables.FirstOrDefaultAsync(t => t.Id == viewModel.TableId);
             if (table == null)
             {
                 return NotFound("Table not found.");
             }
 
-            // Faturayı kaydediyoruz
+            // We save the Bill
             await context.Bills.AddAsync(bill);
             await context.SaveChangesAsync();
 
-            // Masanın dolu olduğunu işaretliyoruz
+            // We mark that the table is full 
             table.IsFull = true;
-            await context.SaveChangesAsync(); // Yapılan değişiklikleri kaydediyoruz
+            await context.SaveChangesAsync(); // We save the changes made
 
             return RedirectToAction("UserIndex", "Table");
         }
@@ -98,36 +98,37 @@ namespace KafeHaruno.Controllers
         {
 
 
-            // Kullanıcıyı veritabanında bul
+            // Find user in Database
             var bill = await context.Bills.FindAsync(viewModel.Id);
             if (bill != null)
             {
-                // Kullanıcı bilgilerini güncelle
+                // Update users' information
                 bill.BillPrice = viewModel.BillPrice;
                 bill.IsPaid = viewModel.IsPaid;
                 bill.TableId = viewModel.TableId;
 
-                // İlgili masayı alıyoruz
+                // Let's take the relevant table
                 var table = await context.Tables.FirstOrDefaultAsync(t => t.Id == viewModel.TableId);
                 if (table == null)
                 {
                     return NotFound("Table not found.");
                 }
-                // Değişiklikleri kaydet
+                // Save changes
                 await context.SaveChangesAsync();
                 bill.Tables.IsFull = !viewModel.IsPaid;
                 await context.SaveChangesAsync();
-                // Başarı mesajını ayarla
+
+                // Set success message
                 TempData["SuccessMessage"] = "Bill updated successfully.";
 
             }
             else
             {
-                // Kullanıcı bulunamadıysa hata mesajı ayarla
+                // Set error message if user not found
                 TempData["ErrorMessage"] = "Bill not found.";
             }
 
-            // Admin sayfasına yönlendir
+            // Redirect to admin page
             return RedirectToAction("AdminIndex", "Bill");
         }
 
@@ -146,10 +147,10 @@ namespace KafeHaruno.Controllers
 
             if (bill == null)
             {
-                return NotFound(); // Kullanıcı bulunamazsa 404 döndür
+                return NotFound(); //Return 404 if user not found
             }
 
-            return View(bill); // Detayları görüntülemek için view'ı döndür
+            return View(bill); // Rotate view to view details
         }
 
 
@@ -178,15 +179,15 @@ namespace KafeHaruno.Controllers
                 return RedirectToAction("AdminIndex", "Table");
             }
 
-            // Bill ödendiğinde, ona bağlı Table üzerinden Order kayıtlarını bul ve sil
+            // When the Bill is paid, find and delete the Order records from the Table attached to it
             var tableId = bill.Tables.Id;
             var orders = context.Orders.Where(o => o.TableId == tableId).ToList();
-            context.Orders.RemoveRange(orders); // Bulunan tüm Order kayıtlarını sil
+            context.Orders.RemoveRange(orders); // Delete all found Order records
 
             bill.IsPaid = true;
             bill.Tables.IsFull = false;
 
-            await context.SaveChangesAsync(); // Değişiklikleri kaydet
+            await context.SaveChangesAsync(); // Save changes
 
             return RedirectToAction("AdminIndex", "Table");
         }

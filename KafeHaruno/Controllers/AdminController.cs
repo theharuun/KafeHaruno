@@ -18,7 +18,7 @@ namespace KafeHaruno.Controllers
         }
 
         public IActionResult Index()
-        { // passaword silinecek ındexcshtmlden
+        { 
             return View(context.Users.ToList());
         }
 
@@ -30,7 +30,7 @@ namespace KafeHaruno.Controllers
             var userName = HttpContext.User.FindFirst(ClaimTypes.Name)?.Value;
             ViewBag.Name = userName;
 
-            var userRole = HttpContext.User.FindFirst("Role")?.Value; // Kullanıcı rolünü al
+            var userRole = HttpContext.User.FindFirst("Role")?.Value; // Get user role
             ViewBag.Role = userRole;
 
             return View();
@@ -73,37 +73,37 @@ namespace KafeHaruno.Controllers
         public async Task<IActionResult> EditUser(User viewModel)
         {
 
-            // Kullanıcıyı veritabanında bul
+            // Find user in database
             var user = await context.Users.FindAsync(viewModel.Id);
             if (user != null)
             {
-                // Kullanıcı bilgilerini güncelle
+                // Update user information
                 user.Name = viewModel.Name;
                 user.Surname = viewModel.Surname;
                 user.Username = viewModel.Username;
                 user.Role = viewModel.Role;
 
-                // Değişiklikleri kaydet
+                // Save changes
                 await context.SaveChangesAsync();
 
-                // Başarı mesajını ayarla
+                // Set success message
                 TempData["SuccessMessage"] = "User updated successfully.";
 
             }
             else
             {
-                // Kullanıcı bulunamadıysa hata mesajı ayarla
+                // Set error message if user not found
                 TempData["ErrorMessage"] = "User not found.";
             }
 
-            // Admin sayfasına yönlendir
+            // Redirect to admin page
             return RedirectToAction("Index", "Admin");
         }
 
         [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
-            // Kullanıcıyı ve ilgili apartman bilgilerini al
+            // Get user and related apartment information
             var user = await context.Users
                 .Include(a => a.Orders)
                     .ThenInclude(o => o.OrderProducts) // Include OrderProducts
@@ -115,10 +115,10 @@ namespace KafeHaruno.Controllers
 
             if (user == null)
             {
-                return NotFound(); // Kullanıcı bulunamazsa 404 döndür
+                return NotFound(); // Return 404 if user not found
             }
 
-            return View(user); // Detayları görüntülemek için view'ı döndür
+            return View(user); // Rotate view to view details
         }
 
         public async Task<IActionResult> DeleteUser(int id)

@@ -44,7 +44,7 @@ namespace KafeHaruno.Migrations
 
                     b.HasIndex("TableId");
 
-                    b.ToTable("Bills");
+                    b.ToTable("Bills", (string)null);
                 });
 
             modelBuilder.Entity("KafeHaruno.Entities.Order", b =>
@@ -70,7 +70,7 @@ namespace KafeHaruno.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Orders", (string)null);
                 });
 
             modelBuilder.Entity("KafeHaruno.Entities.OrderProduct", b =>
@@ -88,7 +88,7 @@ namespace KafeHaruno.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("OrderProducts");
+                    b.ToTable("OrderProducts", (string)null);
                 });
 
             modelBuilder.Entity("KafeHaruno.Entities.Product", b =>
@@ -118,7 +118,7 @@ namespace KafeHaruno.Migrations
 
                     b.HasIndex("ProductTypeId");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
                 });
 
             modelBuilder.Entity("KafeHaruno.Entities.ProductType", b =>
@@ -135,7 +135,7 @@ namespace KafeHaruno.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ProductTypes");
+                    b.ToTable("ProductTypes", (string)null);
                 });
 
             modelBuilder.Entity("KafeHaruno.Entities.Tables", b =>
@@ -151,7 +151,7 @@ namespace KafeHaruno.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Tables");
+                    b.ToTable("Tables", (string)null);
                 });
 
             modelBuilder.Entity("KafeHaruno.Entities.User", b =>
@@ -190,7 +190,7 @@ namespace KafeHaruno.Migrations
                     b.HasIndex("Username")
                         .IsUnique();
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("KafeHaruno.Entities.Bill", b =>

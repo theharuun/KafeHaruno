@@ -12,7 +12,7 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <!-- Kullanıcı ID'sini ve Role'nü taşımak için gizli input -->
+            <!-- Hidden input to carry your User ID and Role -->
             <input type="hidden" asp-for="Id" />
             <input type="hidden" asp-for="Role" />
 

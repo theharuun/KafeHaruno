@@ -1,4 +1,4 @@
-﻿@if (Context.User.Identity.IsAuthenticated) // Kullanıcı doğrulanmış mı?
+﻿@if (Context.User.Identity.IsAuthenticated) // Is the user authenticated?
 {
     <form asp-controller="Home" asp-action="LogOut" method="post" id="logoutForm" class="navbar-nav">
         <ul class="nav navbar-nav navbar-right">

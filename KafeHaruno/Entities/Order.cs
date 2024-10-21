@@ -9,12 +9,12 @@ namespace KafeHaruno.Entities
         public int OrderPayment { get; set; }
 
         public int UserId { get; set;  }
-        public User User { get; set; }
+        public User User { get; set; }  // Relation to User
 
-        public int TableId { get; set; }  // Hangi masaya ait olduğunu belirtir
-        public Tables Tables { get; set; }  // Masa ile ilişki
+        public int TableId { get; set; }  // Specifies which table it belongs to
+        public Tables Tables { get; set; }  // Relation to table
 
-        public ICollection<OrderProduct> OrderProducts { get; set; }  // Order ile Product arasındaki ara tablo ilişkisi
+        public ICollection<OrderProduct> OrderProducts { get; set; } // Intermediate table relationship between Order and Product
     }
 
 }

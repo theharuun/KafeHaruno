@@ -11,7 +11,7 @@ namespace KafeHaruno.Entities
         public Product Product { get; set; }
 
         [Range(1, int.MaxValue, ErrorMessage = "Quantity must be greater than 0.")]
-        public int Quantity { get; set; }  // Sipariş edilen ürünün miktarı
+        public int Quantity { get; set; }  // Quantity of product ordered
     }
 
 }

@@ -1,4 +1,5 @@
-﻿using KafeHaruno.Entities;
+﻿using Humanizer;
+using KafeHaruno.Entities;
 using KafeHaruno.KafeHarunoDbContext;
 using KafeHaruno.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -40,13 +41,13 @@ namespace KafeHaruno.Controllers
         {
             int userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
 
-            // Veritabanındaki ürünleri getiriyoruz (bunlar kullanıcıya gösterilecek)
+            // We fetch products from the database (they will be displayed to the user)
             var products = context.Products.Select(p => new ProductViewModel
             {
                 ProductId = p.Id,
                 ProductName=p.ProductName,
                 ProductPrice = p.Price,
-                Quantity = 0 // Başlangıçta miktar sıfır
+                Quantity = 0 // Initially the amount is zero
             }).ToList();
 
             var viewModel = new OrderViewModel
@@ -61,45 +62,45 @@ namespace KafeHaruno.Controllers
         }
 
 
-        /// burada order kaydedilirken bir hata alıyoruz table.orders.orderproduct boş gözüküyor
+        /// Here we get an error while saving the order, table.orders.orderproduct appears empty
         public async Task<IActionResult> Create(OrderViewModel viewModel)
         {
-            
-           // Formdan gelen Products listesini kontrol edelim
+
+            // Let's check the Products list from the form
             if (viewModel.Products == null || !viewModel.Products.Any())
             {
-                ModelState.AddModelError(string.Empty, "Ürün listesi boş veya geçersiz.");
+                ModelState.AddModelError(string.Empty, "The product list is empty or invalid.");
                 return View(viewModel);
             }
 
             var table = await context.Tables.FirstOrDefaultAsync(t => t.Id == viewModel.TableId);
             if (table == null)
             {
-                ModelState.AddModelError(string.Empty, "Geçersiz masa ID'si.");
+                ModelState.AddModelError(string.Empty, "Invalid table ID.");
                 return View(viewModel);
             }
 
 
-            // Order nesnesini oluşturuyoruz
+            // We create the Order object
             var order = new Order()
             {
                 UserId = viewModel.UserId,
                 TableId = viewModel.TableId,
                 OrderPayment = 1,
                 Tables=table,
-                OrderProducts = new List<OrderProduct>() { }// Boş liste ile başlıyoruz
+                OrderProducts = new List<OrderProduct>() { }// We start with an empty list
             };
 
             context.Orders.Add(order);
             await context.SaveChangesAsync();
-            // Siparişi masaya ekleyin
+            // Add order to table
             table.Orders.Add(order);
             await context.SaveChangesAsync();
 
 
-            // Sadece Quantity > 0 olan ürünleri seçiyoruz
+            // We only select products with Quantity > 0
             var orderProducts = viewModel.Products
-                .Where(p => p.Quantity > 0) // Sadece seçilen ürünler
+                .Where(p => p.Quantity > 0) // Selected products only
                 .Select(p => new OrderProduct
                 {
                     ProductId = p.ProductId,
@@ -107,19 +108,19 @@ namespace KafeHaruno.Controllers
                     OrderId=order.Id
                 }).ToList();
 
-            // Eğer hiç ürün seçilmemişse hata döndürüyoruz
+            // If no product is selected we return an error
             if (!orderProducts.Any())
             {
-                ModelState.AddModelError(string.Empty, "Lütfen en az bir ürün seçin.");
+                ModelState.AddModelError(string.Empty, "Please select at least one product.");
                 return View(viewModel);
             }
 
-   // Total price hesaplaması
+           // Calculating of total price
             int totalPrice = (int)(orderProducts.Sum(op =>
                     op.Quantity * context.Products.First(p => p.Id == op.ProductId).Price) ?? 0);
 
-            order.OrderPayment = totalPrice; // OrderPayment'ı güncelle
-            order.Tables.IsFull = true; // Masanın dolu olduğunu işaretle
+            order.OrderPayment = totalPrice; // Update OrderPayment
+            order.Tables.IsFull = true; // Mark the table full
 
             foreach (var orderP in orderProducts)
             {
@@ -133,21 +134,21 @@ namespace KafeHaruno.Controllers
 
 
 
-         
-   
 
-            // Mevcut fatura kontrolü
+
+
+            // Check current invoice
             var bill = await context.Bills.FirstOrDefaultAsync(b => b.TableId == order.TableId && !b.IsPaid);
 
             if (bill != null)
             {
-                // Eğer mevcut bir fatura varsa, fiyatı güncelle
-                bill.BillPrice += totalPrice; // Yeni siparişin toplam fiyatını ekleyin
-                await context.SaveChangesAsync(); // Güncellemeyi kaydet
+                // If there is an existing invoice, update the price
+                bill.BillPrice += totalPrice; // Add the total price of the new order
+                await context.SaveChangesAsync(); // Save Changes
             }
             else
             {
-                // Yeni bir fatura oluşturmak için CreateBillViewModel kullanarak yönlendirme yapıyoruz
+                // To create a new invoice we use CreateBillViewModel to redirect
                 var billViewModel = new CreateBillViewModel
                 {
                     BillPrice = totalPrice,
@@ -158,11 +159,11 @@ namespace KafeHaruno.Controllers
                 return RedirectToAction("CreateBillForm", "Bill", billViewModel); // Yeni fatura oluşturma
             }
 
-          
 
 
 
-            // Eğer bir fatura güncellenmişse, TableController'a geri dön
+
+            // If an invoice is updated, return to TableController
             return RedirectToAction("UserIndex", "Table");
 
         }
