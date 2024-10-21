@@ -57,12 +57,13 @@ KafeHaruno is a web-based cafe management system focused on backend development,
    ```bash
    git clone https://github.com/theharuun/KafeHaruno.git
 2. Open the solution in Visual Studio.
-3.Install required dependencies and build the project.
-4.Set up the SQL Server database connection string in the appsettings.json file:
+3. Install required dependencies and build the project.
+4. Set up the SQL Server database connection string in the appsettings.json file:
    ```bash
     "ConnectionStrings": {
     "DefaultConnection": "Server=your_server;Database=KafeHarunoDB;Trusted_Connection=True;"
     }
+
 5.Run the migrations to set up the database  and Launch the project:
    ```bash2
          "dotnet ef database update "
