@@ -1,0 +1,40 @@
+﻿@model OrderViewModel
+
+<form asp-action="Create" method="post">
+    <input type="hidden" asp-for="TableId" />
+    <input type="hidden" asp-for="UserId" />
+
+    <table>
+        <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>Price</th>
+                <th>Pieces</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Products != null && Model.Products.Any())
+            {
+                @for (int i = 0; i < Model.Products.Count; i++)
+                {
+                    <tr>
+                        <td>@Model.Products[i].ProductName</td>
+                        <td>@Model.Products[i].ProductPrice</td>
+                        <td>
+                            <input type="number" asp-for="Products[i].Quantity" min="0" />
+                            <input type="hidden" asp-for="Products[i].ProductId" />
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="3">Not Found Product</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <button type="submit">Give Order</button>
+</form>

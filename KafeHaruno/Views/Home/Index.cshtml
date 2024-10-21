@@ -1,0 +1,38 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<style>
+    body {
+        background-color: #f0f4ff; /* Genel sayfa arka plan rengi (açık mavi) */
+    }
+
+    .nav-liste {
+        list-style: none; /* Liste işaretlerini kaldır */
+        padding: 0;
+        margin: 0;
+    }
+
+    .nav-iteme {
+        list-style: none; /* Tek bir eleman için liste işaretini kaldır */
+        padding: 20px; /* İçerik etrafında boşluk bırak */
+        width: 300px; /* Genişliği ayarla */
+        height: 100px; /* Yüksekliği ayarla */
+        background-color: #007bff; /* Login sayfalarında kullanılan mavi arka plan rengi */
+        color: white; /* Yazı rengini beyaz yap */
+        border-radius: 8px; /* Kenarları yuvarla */
+        margin: 0 auto; /* Ortalamak için */
+        text-align: center; /* İçerik metnini ortala */
+    }
+</style>
+
+<div class="text-center" style="margin-top: 50px; margin-bottom: 150px;">
+    <h1 class="display-4">Welcome Kafe Haruno</h1>
+</div>
+<div>
+    <ul class="nav-liste">
+        <li class="nav-iteme ms-auto">
+            @await Html.PartialAsync("_LoginPartial") <!-- ms-auto sınıfı ile sağa itme -->
+        </li>
+    </ul>
+</div>

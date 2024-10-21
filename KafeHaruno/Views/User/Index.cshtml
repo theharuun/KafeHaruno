@@ -1,0 +1,85 @@
+﻿@model KafeHaruno.Entities.User
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<div>
+    <h4>User</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Id)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Id)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Surname)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Surname)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Username)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Username)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Password)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Password)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Role)
+        </dt>
+        <dd class = "col-sm-10">
+         
+                @if (Model.Role == true)
+                {
+                    <text>Admin</text>
+                }
+                else if (@Model.Role == false)
+                {
+                    <text>Waiter/Waitress</text>
+                }
+           
+        </dd>
+    </dl>
+</div>
+<div style=" display: flex; justify-content: flex-start; margin-top: 20px; height:50px; width:1120px ; text-align: center;">
+    <a class="btn btn-outline-success" asp-controller="User" asp-action="Edit" asp-route-id="@Model.Id">Edit</a> 
+ </div>
+
+<div style="display: flex; justify-content: flex-end; margin-top: 20px; height:50px; width:1120px ; text-align: center;">
+
+    @if (Context.User.Identity.IsAuthenticated)
+    {
+        var userRole = Context.User.FindFirst("Role")?.Value; // Kullanıcı rolünü al
+
+        <li class="nav-item" style="list-style-type: none;">
+            @if (userRole == "Waiter/Waitress")
+            {
+                <a class="btn btn-primary" asp-controller="User" asp-action="SecurePage" style="margin-left: auto;">
+                    Back to Main Page
+                </a>
+            }
+            else if (userRole == "Admin")
+            {
+                <a class="btn btn-primary" asp-controller="Admin" asp-action="SecurePage" style="margin-left: auto;">
+                    Back to Main Page
+                </a>
+            }
+        </li>
+    }
+</div>

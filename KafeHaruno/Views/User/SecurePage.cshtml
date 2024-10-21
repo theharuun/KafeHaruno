@@ -1,0 +1,82 @@
+﻿﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<style>
+    .nav-list-user {
+        display: flex; /* Flexbox kullan */
+        list-style: none; /* Liste işaretlerini kaldır */
+        padding: 0; /* Varsayılan iç boşlukları kaldır */
+        margin: 0; /* Varsayılan dış boşlukları kaldır */
+        justify-content: center; /* Elemanları yatayda ortala */
+        margin-top: 150px; /* Listenin üst kısmına boşluk ekle */
+    }
+
+    .nav-item-user {
+        position: relative; /* Konumlandırma için */
+        margin-right: 150px; /* Elemanlar arasına boşluk ekle */
+    }
+
+    .nav-link-user {
+        display: block; /* Tam alan kaplaması için */
+        width: 150px; /* Buton genişliği */
+        height: 150px; /* Buton yüksekliği */
+        text-align: center; /* Metni ortala */
+        color: white; /* Yazı rengini beyaz yap */
+        text-decoration: none; /* Alt çizgiyi kaldır */
+        background-size: contain; /* Arka plan resmini kapsayacak şekilde ayarla */
+        background-repeat: no-repeat; /* Arka plan resmini tekrarlama */
+        background-position: center; /* Arka plan resmini ortala */
+        border-radius: 8px; /* Kenarları yuvarla */
+    }
+
+
+    .users-link-user {
+        background-image: url('https://cdn.textstudio.com/text-effect/2297/0dd88/Accounts.webp');
+    }
+
+    .invoices-link-user {
+        background-image: url('https://cdn.textstudio.com/text-effect/2297/a018a/Bills.webp');
+    }
+    .order-link-user {
+        background-image: url('https://cdn.textstudio.com/text-effect/2297/3c52d/Orders.webp');
+    }
+
+
+    .product-link-user {
+        background-image: url('https://cdn.textstudio.com/text-effect/2297/7cb0d/Products.webp');
+    }
+
+
+    .table-link-user {
+        background-image: url('https://cdn.textstudio.com/text-effect/2297/18359/Tables.webp');
+    }
+</style>
+
+<div class="text-center" style="margin-top: 50px;">
+    <h1 class="display-4">Welcome Kafe Haruno</h1>
+</div>
+
+<div class="text-center" style="margin-top: 50px;">
+    <ul class="nav-list-user">
+      <!--
+
+                <li class="nav-item-user">
+                    <a class="nav-link-user users-link-user" asp-controller="User" asp-action="Index"></a>
+                </li>
+                <li class="nav-item-user">
+                    <a class="nav-link-user invoices-link-user" asp-controller="Bill" asp-action="UserIndex"></a>
+                </li>
+                <li class="nav-item-user">
+                    <a class="nav-link-user order-link-user" asp-controller="Order" asp-action="UserIndex"></a>
+                </li>
+                <li class="nav-item-user">
+                    <a class="nav-link-user product-link-user" asp-controller="Product" asp-action="UserIndex"></a>
+                </li>
+
+      -->  
+        <li class="nav-item-user">
+            <a class="nav-link-user table-link-user" asp-controller="Table" asp-action="UserIndex"></a>
+        </li>
+    </ul>
+</div>

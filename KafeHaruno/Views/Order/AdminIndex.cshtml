@@ -1,0 +1,68 @@
+﻿@model IEnumerable<KafeHaruno.Entities.Order>
+
+@{
+    ViewData["Title"] = "AdminIndex";
+}
+
+<h1>Order List</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Order ID</th>
+            <th>User Name</th>
+            <th>Product Name</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Table ID</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Any())
+        {
+            @foreach (var order in Model)
+            {
+                foreach (var orderProduct in order.OrderProducts) // Her siparişin tüm ürünlerini dolaş
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(m => order.Id)</td>
+                        <td>@Html.DisplayFor(m => order.User.Name)</td>
+                        <td>@Html.DisplayFor(m => orderProduct.Product.ProductName)</td> <!-- Ürün ismi -->
+                        <td>@Html.DisplayFor(m => orderProduct.Product.Price)</td>
+                        <td>@Html.DisplayFor(m => orderProduct.Quantity)</td> <!-- Miktar -->
+                        <td>@Html.DisplayFor(m => order.TableId)</td>
+                    </tr>
+                }
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="5">Hiç sipariş bulunamadı.</td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+<div style="display: flex; justify-content: flex-end; margin-top: 20px; height:50px; width:1120px ; text-align: center;">
+
+    @if (Context.User.Identity.IsAuthenticated)
+    {
+        var userRole = Context.User.FindFirst("Role")?.Value; // Kullanıcı rolünü al
+
+        <li class="nav-item" style="list-style-type: none;">
+            @if (userRole == "Waiter/Waitress")
+            {
+                <a class="btn btn-primary" asp-controller="User" asp-action="SecurePage" style="margin-left: auto;">
+                    Back to Main Page
+                </a>
+            }
+            else if (userRole == "Admin")
+            {
+                <a class="btn btn-primary" asp-controller="Admin" asp-action="SecurePage" style="margin-left: auto;">
+                    Back to Main Page
+                </a>
+            }
+        </li>
+    }
+</div>

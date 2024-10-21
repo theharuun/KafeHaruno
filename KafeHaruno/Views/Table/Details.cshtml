@@ -1,0 +1,150 @@
+﻿@model KafeHaruno.Entities.Tables
+
+@{
+    ViewData["Title"] = "Table Details";
+}
+
+<h1>Table Details - Table @Model.Id</h1>
+
+<hr />
+
+<!-- Temel Tablo Bilgileri -->
+<div>
+    <p><strong>Table ID:</strong> @Model.Id</p>
+    <p><strong>Is Full:</strong> @(Model.IsFull ? "Yes" : "No")</p>
+</div>
+
+<hr />
+
+<!-- Ödenmemiş Fatura Bilgisi (Unpaid Bill Details) -->
+<h3>Unpaid Bill Details</h3>
+@if (Model.Bills != null && Model.Bills.Any(b => b.IsPaid == false))
+{
+    var unpaidBill = Model.Bills.FirstOrDefault(b => b.IsPaid == false);
+
+    <div>
+        <p><strong>Bill ID:</strong> @unpaidBill.Id</p>
+        <p><strong>Bill Price:</strong> @unpaidBill.BillPrice</p>
+        <p><strong>Is Paid:</strong> @("No")</p>
+    </div>
+
+
+
+    @if (Context.User.Identity.IsAuthenticated)
+    {
+        var userRole = Context.User.FindFirst("Role")?.Value; // Kullanıcı rolünü al
+
+        <li class="nav-item" style="list-style-type: none;">
+            @if (userRole == "Admin")
+            {
+                <!-- Pay to Bill Butonu -->
+                <a class="btn btn-secondary" asp-controller="Bill" asp-action="PayToBill" asp-route-id="@unpaidBill.Id">Pay to Bill</a>
+            }
+        </li>
+    }
+
+
+    <hr />
+
+    <!-- Siparişler (Orders) - Sadece Ödenmemiş Faturaya Bağlı Olanlar -->
+    <h3>Orders Linked to Unpaid Bill</h3>
+    @if (Model.Orders != null && Model.Orders.Any(o => o.TableId == unpaidBill.TableId)) // TableId ile filtreleme
+    {
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>User Name</th>
+                    <th>Product Name</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Table ID</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var order in Model.Orders.Where(o => o.TableId == unpaidBill.TableId)) // TableId ile filtreleme
+                {
+                    foreach (var orderProduct in order.OrderProducts) // Her siparişin tüm ürünlerini dolaş
+                    {
+                        <tr>
+                            <td>@order.Id</td>
+                            <td>@order.User.Name</td>
+                            <td>@orderProduct.Product.ProductName</td> <!-- Ürün ismi -->
+                            <td>@orderProduct.Product.Price</td>
+                            <td>@orderProduct.Quantity</td> <!-- Miktar -->
+                            <td>@order.TableId</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+
+
+
+        </table>
+    }
+    else
+    {
+        <p>No orders linked to the unpaid bill for this table.</p>
+    }
+
+
+    @if (Context.User.Identity.IsAuthenticated)
+    {
+        var userRole = Context.User.FindFirst("Role")?.Value; // Kullanıcı rolünü al
+
+        <li class="nav-item" style="list-style-type: none;">
+            @if (userRole == "Waiter/Waitress")
+            {
+                <!-- Give Order Butonu -->
+                <a class="btn btn-secondary" asp-controller="Order" asp-action="Create" asp-route-tableId="@Model.Id" >Give Order</a>
+            }
+        </li>
+    }
+
+
+    <hr />
+}
+else
+{
+    <p>No unpaid bills available for this table.</p>
+
+    @if (Context.User.Identity.IsAuthenticated)
+    {
+        var userRole = Context.User.FindFirst("Role")?.Value; // Kullanıcı rolünü al
+
+        <li class="nav-item" style="list-style-type: none;">
+            @if (userRole == "Waiter/Waitress")
+            {
+                <!-- Pay to Bill Butonu -->
+                <a class="btn btn-secondary" asp-controller="Order" asp-action="Create" asp-route-tableId="@Model.Id">Give Order</a>
+            }
+        </li>
+    }
+}
+
+<hr />
+
+<!-- Geri Dönüş Butonu -->
+
+<div style="display: flex; justify-content: flex-end; margin-top: 20px; height:50px; width:1120px ; text-align: center;">
+
+    @if (Context.User.Identity.IsAuthenticated)
+    {
+        var userRole = Context.User.FindFirst("Role")?.Value; // Kullanıcı rolünü al
+
+        <li class="nav-item" style="list-style-type: none;">
+            @if (userRole == "Waiter/Waitress")
+            {
+                <a class="btn btn-primary" asp-controller="Table" asp-action="UserIndex" style="margin-left: auto;">
+                    Back to Tables
+                </a>
+            }
+            else if (userRole == "Admin")
+            {
+                <div>
+                    <a class="btn btn-secondary" asp-controller="Table" asp-action="AdminIndex">Back to Tables</a>
+                </div>
+            }
+        </li>
+    }
+</div>

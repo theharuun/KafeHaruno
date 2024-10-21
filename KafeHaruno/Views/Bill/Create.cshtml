@@ -1,0 +1,47 @@
+﻿@model KafeHaruno.Models.CreateBillViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create Bill</h1>
+
+<h4>CreateBillViewModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="BillPrice" class="control-label"></label>
+                <input asp-for="BillPrice" class="form-control" />
+                <span asp-validation-for="BillPrice" class="text-danger"></span>
+            </div>
+
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsPaid" /> @Html.DisplayNameFor(model => model.IsPaid)
+                </label>
+                <span asp-validation-for="IsPaid" class="text-danger"></span> <!-- Doğrulama mesajı eklendi -->
+            </div>
+
+            <!-- TableId alanını gizli bir alan olarak ekleyin -->
+            <input type="hidden" asp-for="TableId" />
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="AdminIndex">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

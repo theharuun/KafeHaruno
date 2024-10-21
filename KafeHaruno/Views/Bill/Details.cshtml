@@ -1,0 +1,93 @@
+﻿@model KafeHaruno.Entities.Bill
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Bill</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Id)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Id)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.BillPrice)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.BillPrice)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.IsPaid)
+        </dt>
+        <dd class="col-sm-10">
+            @if (Model.IsPaid)
+            {
+                <span>Paid</span>
+            }
+            else
+            {
+                <span>UnPaid</span>
+            }
+        </dd>
+
+        <dt class="col-sm-2">Orders Detail</dt>
+        <dd class="col-sm-10">
+            @if (Model.Tables.Orders != null && Model.Tables.Orders.Any())
+            {
+                <ul>
+                    @foreach (var order in Model.Tables.Orders)
+                    {
+                        <li>
+                            Order-Id: @order.Id, Order Payment: @order.OrderPayment, Table Id: @order.TableId
+                            <ul>
+                                @foreach (var orderProduct in order.OrderProducts)
+                                {
+                                    <li>
+                                        Product Name: @orderProduct.Product.ProductName,
+                                        Unit Price: @orderProduct.Product.Price,
+                                        Quantity: @orderProduct.Quantity,
+                                        Total Price:@(orderProduct.Product.Price * orderProduct.Quantity)
+                                    </li>
+                                }
+                            </ul>
+                        </li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <p>No orders found.</p>
+            }
+        </dd>
+
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TableId)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TableId)
+        </dd>
+    </dl>
+</div>
+<div>
+    @if (Context.User.Identity.IsAuthenticated)
+    {
+        var userRole = Context.User.FindFirst("Role")?.Value; // Kullanıcı rolünü al
+        <p>
+            @if (userRole == "Admin")
+            {
+                <a class="btn btn-info" asp-controller="Bill" asp-action="AdminIndex">Back To List</a>
+            }
+            else if (userRole == "Waiter/Waitress") // Kullanıcı rolü için
+            {
+                <a class="btn btn-info" asp-controller="Bill" asp-action="UserIndex">Back To List</a>
+            }
+
+        </p>
+    }
+</div>
