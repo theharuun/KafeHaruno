@@ -43,10 +43,10 @@ KafeHaruno is a web-based cafe management system focused on backend development,
  -Waiters can only manage tables and orders. They can't access management features. They can change their username or password, create a new order but can't delete it. They can't see billing information.
 
 ## Future Enhancements
-  -**Adding detailed analysis for order management and sales.**-
-  -**Adding end of day and similar functions, refreshing the database every 2 days.**-
-  -**Making the UI more mobile friendly.**-
-  -**About In this project, I did it to further develop my backend skills and gain more experience in relationships, and I created the frontend part in a basic structure. I WILL CONTINUE TO DEVELOP THE PROJECT .**-
+ - **Adding detailed analysis for order management and sales.**-
+ - **Adding end of day and similar functions, refreshing the database every 2 days.**-
+ - **Making the UI more mobile friendly.**-
+ - **About In this project, I did it to further develop my backend skills and gain more experience in relationships, and I created the frontend part in a basic structure. I WILL CONTINUE TO DEVELOP THE PROJECT .**-
 
 ## Contributions
  -**Feel free to fork the project and submit pull requests. Open issues for any bugs or feature requests!**-
